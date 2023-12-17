@@ -1,6 +1,5 @@
 package ch.bgs.anttask;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -71,20 +70,6 @@ public class MtmEiamLoginVerifier extends Task {
 			log("IOException : " + e.getMessage(), Project.MSG_ERR);
 		}
 
-	}
-
-	public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
-
-		File destFile = new File(destinationDir, zipEntry.getName());
-
-		String destDirPath = destinationDir.getCanonicalPath();
-		String destFilePath = destFile.getCanonicalPath();
-
-		if (!destFilePath.startsWith(destDirPath + File.separator)) {
-			throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
-		}
-
-		return destFile;
 	}
 
 	public String getSearchItem() {

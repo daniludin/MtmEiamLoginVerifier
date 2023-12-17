@@ -1,6 +1,5 @@
 package ch.bgs.anttask;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +18,6 @@ public class MtmEiamLoginVerifierTest {
 	public void test() {
 
 		String fileZip = "C:/Users/danie/git/substidoc/dist/substidoc-0.0.0.war";
-		File destDir = new File("src/main/resources/unzipTest");
 
 		try {
 			byte[] buffer = new byte[1024];
