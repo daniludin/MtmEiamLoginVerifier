@@ -11,8 +11,6 @@ import java.util.zip.ZipInputStream;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
-//java.util.zip.ZipInputStream;
-
 public class MtmEiamLoginVerifier extends Task {
 
 	private String searchItem;
