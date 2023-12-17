@@ -2,8 +2,9 @@
 
 Dieser Ant Custom Task prüft, ob ein bestimmter Suchbegriff auskommentiert ist,
 wie z.B. die EIAM Login Configuration im applicationContext.xml
+Dazu wird das fertige .war unzipped und durchsucht.
 
-Das dist Target muss dazu um folgende Zeilen erweiter werden:
+Das dist Target muss dazu um folgende Zeilen erweitert werden:
 
 	<target name="dist" description="Create war">
 
