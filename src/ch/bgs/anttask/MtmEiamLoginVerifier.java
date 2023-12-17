@@ -19,11 +19,22 @@ public class MtmEiamLoginVerifier extends Task {
 	@Override
 	public void execute() {
 
+		if (getFileToSearch() == null || getFileToSearch().length() == 0) {
+			log("Das Attribut 'getFileToSearch' fehlt oder ist leer.", Project.MSG_ERR);
+			return;
+		}
+		if (!getFileToSearch().endsWith(".xml")) {
+			log("Das Attribut 'getFileToSearch' enthält kein .xml file.", Project.MSG_ERR);
+			return;
+		}
 		if (getSearchItem() == null || getSearchItem().length() == 0) {
 			log("Das Attribut 'searchItem' fehlt oder ist leer.", Project.MSG_ERR);
 			return;
 		}
 		//log("fileToSearch: " + getFileToSearch(), Project.MSG_ERR);
+		
+		
+		
 		String fileZip = getProject().getProperty("dist.home") + "/" + getProject().getProperty("app.name") + "-" + getProject().getProperty("app.version") + ".war";
 		boolean fileToSearchFound = false;
 		try {
