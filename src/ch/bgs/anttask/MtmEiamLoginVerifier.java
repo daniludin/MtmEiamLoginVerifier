@@ -14,7 +14,8 @@ import org.apache.tools.ant.Task;
 public class MtmEiamLoginVerifier extends Task {
 
 	private String searchItem;
-
+	private String fileToSearch;
+	
 	@Override
 	public void execute() {
 
@@ -22,17 +23,21 @@ public class MtmEiamLoginVerifier extends Task {
 			log("Das Attribut 'searchItem' fehlt oder ist leer.", Project.MSG_ERR);
 			return;
 		}
+		//log("fileToSearch: " + getFileToSearch(), Project.MSG_ERR);
 		String fileZip = getProject().getProperty("dist.home") + "/" + getProject().getProperty("app.name") + "-" + getProject().getProperty("app.version") + ".war";
-
+		boolean fileToSearchFound = false;
 		try {
 			byte[] buffer = new byte[1024];
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(fileZip));
 			ZipEntry zipEntry = zis.getNextEntry();
 			while (zipEntry != null) {
 				// System.out.println("zipEntry: " + zipEntry.getName());
+				//log("entry: " + zipEntry.getName(), Project.MSG_ERR);
 
-				if (zipEntry.getName().contains("applicationContext.xml")) {
+				//if (zipEntry.getName().contains("applicationContext.xml")) {
+				if (zipEntry.getName().endsWith(getFileToSearch())) {
 
+					fileToSearchFound = true;
 					int read = 0;
 					StringBuilder s = new StringBuilder();
 
@@ -46,7 +51,8 @@ public class MtmEiamLoginVerifier extends Task {
 					while (matcher.find()) {
 						if (matcher.group().contains("saml")) {
 							log("*********************************************************", Project.MSG_ERR);
-							log("ALARM! Der Eintrag, der den Suchbegriff  '" + getSearchItem() + "' enth√§lt, ist auskommentiert! ", Project.MSG_ERR);
+							log("ALARM! Der Eintrag, der den Suchbegriff  '" + getSearchItem() + "'", Project.MSG_ERR);
+							log("im File " + getFileToSearch() + "' enth‰lt, ist auskommentiert!", Project.MSG_ERR);
 							log("\r\n", Project.MSG_ERR);
 							log(matcher.group(), Project.MSG_ERR);
 							log("\r\n", Project.MSG_ERR);
@@ -68,6 +74,9 @@ public class MtmEiamLoginVerifier extends Task {
 			log("IOException : " + e.getMessage(), Project.MSG_ERR);
 		}
 
+		if (!fileToSearchFound) {
+			log("Warnung: Das zu durchsuchende File: " + getFileToSearch() + " ist nicht im .war enthalten!", Project.MSG_ERR);			
+		}
 	}
 
 	public String getSearchItem() {
@@ -78,6 +87,14 @@ public class MtmEiamLoginVerifier extends Task {
 	public void setSearchItem(String searchItem) {
 
 		this.searchItem = searchItem;
+	}
+
+	public String getFileToSearch() {
+		return fileToSearch;
+	}
+
+	public void setFileToSearch(String fileToSearch) {
+		this.fileToSearch = fileToSearch;
 	}
 
 }
