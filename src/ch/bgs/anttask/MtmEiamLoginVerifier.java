@@ -35,7 +35,8 @@ public class MtmEiamLoginVerifier extends Task {
 		
 		
 		
-		String fileZip = getProject().getProperty("dist.home") + "/" + getProject().getProperty("app.name") + "-" + getProject().getProperty("app.version") + ".war";
+		//String fileZip = getProject().getProperty("dist.home") + "/" + getProject().getProperty("app.name") + "-" + getProject().getProperty("app.version") + ".war";
+		String fileZip = getProject().getProperty("dist.home") + "/" + getProject().getProperty("app.name") + ".war";
 		boolean fileToSearchFound = false;
 		try {
 			byte[] buffer = new byte[1024];
@@ -60,7 +61,7 @@ public class MtmEiamLoginVerifier extends Task {
 
 					Matcher matcher = pattern.matcher(s.toString());
 					while (matcher.find()) {
-						if (matcher.group().contains("saml")) {
+						if (matcher.group().contains(getSearchItem())) {
 							log("*********************************************************", Project.MSG_ERR);
 							log("ALARM! Der Eintrag, der den Suchbegriff  '" + getSearchItem() + "'", Project.MSG_ERR);
 							log("im File " + getFileToSearch() + "' enthält, ist auskommentiert!", Project.MSG_ERR);
